@@ -6,14 +6,16 @@ from enum import Enum
 
 __app_name__ = "gdvm"
 __version__ = "0.1.0"
+__godot_repo__ = "https://downloads.tuxfamily.org/godotengine/"
 
 class OS_NAME(Enum):
     WINDOWS_64 = "win64.exe.zip"
     WINDOWS_32 = "win32.exe.zip"
     MAC = "macos.universal.zip"
-    LINUX_64 = "linux.x86_64.zip"
-    LINUX_32 = "linux.x86_32"
-
+    LINUX_64 = "linux.x11.64.zip"
+    LINUX_32 = "linux.x11.32"
+    LINUX_HEADLESS = "linux_headless.64.zip"
+    LINUX_SERVER = "linux_server.64.zip"
 
 
 (
@@ -22,9 +24,11 @@ class OS_NAME(Enum):
     FILE_ERROR,
     DB_READ_ERROR,
     DB_WRITE_ERROR,
-    JSON_ERROR,
+    TOML_ERROR,
     ID_ERROR,
-) = range(7)
+    URL_ERROR,
+    UNZIP_ERROR,
+) = range(9)
 
 ERRORS = {
     DIR_ERROR: "config directory error",

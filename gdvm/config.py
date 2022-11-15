@@ -18,13 +18,15 @@ CONFIG_FILE_PATH = CONFIG_DIR_PATH / "config.toml"
 
 def init_config_file() -> int:
     try:
-        CONFIG_DIR_PATH.mkdir(exist_ok=True)
+        CONFIG_DIR_PATH.mkdir(exist_ok = True)
     except OSError:
         return DIR_ERROR
     try:
-        CONFIG_FILE_PATH.touch(exist_ok=True)
+        CONFIG_FILE_PATH.touch(exist_ok = True)
     except OSError:
         return FILE_ERROR
+
+    typer.echo(f"Configuration file created at {CONFIG_FILE_PATH}.")
     return SUCCESS
 
 
@@ -40,7 +42,8 @@ def save_os(os: OS_NAME) -> int:
     Returns:
         int: An error code
     """
-    return _edit_config("os", os)
+    typer.echo(f"OS Saved as {str(os)}")
+    return _edit_config("os", str(os))
 
 
 def get_os() -> OS_NAME:
@@ -61,6 +64,7 @@ def save_godot_dir(path: Path) -> int:
     Returns:
         int: error code
     """
+    typer.echo(f"Godot will be in {path.absolute().as_posix()}.")
     return _edit_config("godot_directory", path.absolute().as_posix())
 
 
