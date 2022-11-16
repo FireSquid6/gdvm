@@ -22,7 +22,7 @@ def get_download_url(version: str, os: OS_NAME, release: str = "stable",  mono: 
         url += f"{release}/"
     
     if mono:
-        url += f"{mono}/"
+        url += "mono/"
     
     # append the actual zip file
     url += f"Godot_v{version}-{release}"
@@ -30,11 +30,17 @@ def get_download_url(version: str, os: OS_NAME, release: str = "stable",  mono: 
         url += "_mono"
     url += f"_{str(os)}"
 
+
     # if the version is greater than or equal to 4, replace x11. with x86_
     if int(version[0]) >= 4:
-        url.replace("x11.", "x86_")
+        url = url.replace("x11.", "linux.x86_")
+    
+    # stupid mono thing
+    if mono:
+        url = url.replace("x11.", "x11_")
 
 
+    print(f"Created url {url}")
     return url
 
 

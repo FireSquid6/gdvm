@@ -6,14 +6,14 @@ from enum import Enum
 
 __app_name__ = "gdvm"
 __version__ = "0.1.0"
-__godot_repo__ = "https://downloads.tuxfamily.org/godotengine/"
+__godot_repo__ = "https://downloads.tuxfamily.org/godotengine"
 
-class OS_NAME(Enum):
+class OS_NAME():
     WINDOWS_64 = "win64.exe.zip"
     WINDOWS_32 = "win32.exe.zip"
     MAC = "macos.universal.zip"
-    LINUX_64 = "linux.x11.64.zip"
-    LINUX_32 = "linux.x11.32"
+    LINUX_64 = "x11.64.zip"
+    LINUX_32 = "x11.32.zip"
     LINUX_HEADLESS = "linux_headless.64.zip"
     LINUX_SERVER = "linux_server.64.zip"
 

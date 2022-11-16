@@ -3,8 +3,9 @@
 from typing import Optional
 import typer
 from gdvm import __app_name__, __version__, OS_NAME, SUCCESS
-from gdvm.config import save_os, save_godot_dir, get_os, get_godot_dir, init_config_file
+from gdvm.config import save_os, save_godot_dir, get_os, get_godot_dir, init_config_file, assert_config_exists
 from pathlib import Path
+from gdvm.godot_downloader import get_download_url
 
 
 app = typer.Typer()
@@ -78,64 +79,37 @@ def init(
     
     save_godot_dir(path)
 
-
 @app.command(name = "install")
 def install(
-    version: typer.Argument(
-        ...,
-        help = "The version of godot to use. 'stable' will get the most recent stable version, while 'latest' will get the newest version. Examples: 1.0, 3.5.2, 4.0"
-    ),
-
-    release: typer.Option(
-        "stable",
-        "-r",
-        "--release",
-        help = "The specific release of this version. Uses 'stable' by default. Examples: rc1, pre-alpha, beta4, alpha9."
-    ),
-    mono: typer.Option(
-        False,
-        "--mono",
-        help = "Whether to use the mono version, if it exists."
-    ),
-    name: typer.Option(
+    version: str = typer.Argument(
         "",
-        "-n"
-        "--name",
-        help = "A custom name to give this version. If a version with this name already exists, it will be overridden."
-    )
-) -> None:
-    """ 
-    Installs a new version of Godot from the tuxfamily repo. It will be saved under the name v{version}-{release}-{mono}, so a version insalled with 'gdvm install 1.0 --stable --mono' could later be accessed by doing 'gdvm use 1.0-stable-mono'
-    """
-    pass
-
-
-@app.command(name = "install-custom")
-def install_custom(
-    name: typer.Argument(
-        ...,
-        help = "The name you can later use with 'gdvm use' to access this version."
+        help = "The version of Godot to use. Examples: v3.5.1, v4.0-beta, v3.5.10-rc2"
     ),
-    zip_file: typer.Argument(
-        ...,
-        help="The path to a zip file with the godot executable at the root. Can be a url."
+    mono: bool = typer.Option(
+        False,
+        help = "Whether to use the mono version of Godot or not"
     )
 ) -> None:
-    """
-    Installs a custom version of Godot either from a url or a local zip file. 
-    """
+    # confirm that the config file exists
+    if not assert_config_exists():
+        typer.echo("Config file not found. Please run 'gdvm init' first.")
+        raise typer.Exit()
+
+    # parse the version data
+    version = version.replace("v", "")
+    base_version = ""
+    release = "stable"
+
+    if "-" in version:
+        split = version.split("-")
+    else:
+        base_version = version
+
+    url = get_download_url(base_version, get_os(), release, mono)
+    typer.echo(f"Downloading godot from '{url}'")
+    raise typer.Exit()
 
 
-@app.command(name = "use")
-def use(
-    name: typer.Argument(
-        ...,
-        "The name of the version to use. Examples: 3.5.2-stable, 4.0-beta4, 3.5-stable-mono."
-    )
-) -> None:
-    """ 
-    Switches the current active version of Godot by copying the new executable into the godot folder specified with 'gdvm init'. GODOT MUST BE CLOSED BEFORE DOING THIS!
-    """
 
 @app.command(name = "using")
 def using() -> None:
@@ -148,7 +122,3 @@ def installed() -> None:
     """ 
     Outputs a list of all versions installed and available for use.
     """
-
-
-if __name__ == "__main__":
-    app()
