@@ -91,7 +91,7 @@ PRIVATE METHODS
 """
 def _get_config(key: str) -> dict:
     try:
-        file = CONFIG_FILE_PATH.open("r")
+        file = CONFIG_FILE_PATH.open("r").read()
         return parse(file)[key]
     except OSError:
         return FILE_ERROR
@@ -102,6 +102,7 @@ def _edit_config(key: str, value) -> int:
         toml_data = ""
         with CONFIG_FILE_PATH.open("r") as file:
             toml_data = parse(file.read())
+
             toml_data[key] = value
         
         with CONFIG_FILE_PATH.open("w") as file:
@@ -111,3 +112,5 @@ def _edit_config(key: str, value) -> int:
         
     except OSError:
         return FILE_ERROR
+
+

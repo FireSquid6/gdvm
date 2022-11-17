@@ -5,7 +5,8 @@ import typer
 from gdvm import __app_name__, __version__, OS_NAME, SUCCESS
 from gdvm.config import save_os, save_godot_dir, get_os, get_godot_dir, init_config_file, assert_config_exists
 from pathlib import Path
-from gdvm.godot_downloader import get_download_url
+from gdvm.godot_downloader import get_download_url, download_zip
+from rich.progress import Progress, TextColumn, SpinnerColumn
 
 
 app = typer.Typer()
@@ -72,7 +73,6 @@ def init(
     path: Path
     try:
         path = Path(dir)
-        typer.echo(path.absolute())
     except:
         typer.echo("ERROR: The path was not read properly.")
         raise typer.Exit()
@@ -102,13 +102,56 @@ def install(
 
     if "-" in version:
         split = version.split("-")
+        base_version = split[0]
+        release = split[1]
     else:
         base_version = version
 
+
+    # get the url
+    # TODO: make this work with mono versions
     url = get_download_url(base_version, get_os(), release, mono)
-    typer.echo(f"Downloading godot from '{url}'")
+    typer.echo(f"Generated url to Godot repo '{url}'.")
+
+
+    with Progress (
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        transient=True,
+    ) as progress:
+        progress.add_task(description=f"Downloading Godot {version}")
+        path = get_godot_dir() / "versions" / str(version)
+        error = download_zip(url, path)
+    
+    if error == SUCCESS:
+        typer.echo(f"Godot successfully downloaded!")
+        raise typer.Exit()
+
+    typer.echo(f"Godot download failed. Is the URL a proper link?")
     raise typer.Exit()
 
+
+@app.command(name = "use")
+def use(
+    version: str = typer.Argument(
+        "",
+        help = "The version of Godot to use. Examples: v3.5.1, v4.0-beta, v3.5.10-rc2"
+    ),
+    mono: bool = typer.Option(
+        False,
+        help = "Whether to use the mono version of Godot or not"
+    )
+) -> None:
+    """Uses an already installed version
+
+    Args:
+        version (_type_, optional): _description_. Defaults to typer.Argument( "", help = "The version of Godot to use. Examples: v3.5.1, v4.0-beta, v3.5.10-rc2" ).
+        mono (bool, optional): _description_. Defaults to typer.Option( False, help = "Whether to use the mono version of Godot or not" ).
+    """
+
+    # make sure the config file exists
+
+    # check if the 
 
 
 @app.command(name = "using")
