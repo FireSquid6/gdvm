@@ -110,6 +110,7 @@ def install(
 
     # get the url
     # TODO: make this work with mono versions
+    # TODO: make this create an index of already installed versions
     url = get_download_url(base_version, get_os(), release, mono)
     typer.echo(f"Generated url to Godot repo '{url}'.")
 
@@ -142,16 +143,32 @@ def use(
         help = "Whether to use the mono version of Godot or not"
     )
 ) -> None:
-    """Uses an already installed version
+    """Sets an already installed version as the version to use.
 
     Args:
         version (_type_, optional): _description_. Defaults to typer.Argument( "", help = "The version of Godot to use. Examples: v3.5.1, v4.0-beta, v3.5.10-rc2" ).
         mono (bool, optional): _description_. Defaults to typer.Option( False, help = "Whether to use the mono version of Godot or not" ).
     """
 
-    # make sure the config file exists
+    # TODO: make sure the config file exists
 
-    # check if the 
+    # TODO: check if the requested version is installed
+
+    # TODO: delete the current godot executable
+
+    # TODO: unzip the file to the root of the godot-dir
+
+    # TODO: rename the godot executable
+
+
+    """
+    Quick design choice tangent:
+        One may say that instead of this system of downloading zips is inefficient, as the zip could be extracted once during 
+        install, and then the user's path environment variable be changed every time 'gdvm' use is run.
+        However, I think that having a stable path to godot.exe will benefit most users, since having a constant 
+        path to the godot executable will allow for desktop shortcuts to not break every time the path is updated
+    - FireSquid6
+    """
 
 
 @app.command(name = "using")

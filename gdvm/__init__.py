@@ -16,6 +16,7 @@ class OS_NAME():
     LINUX_32 = "x11.32.zip"
     LINUX_HEADLESS = "linux_headless.64.zip"
     LINUX_SERVER = "linux_server.64.zip"
+    ANDROID = "android_editor.apk"
 
 
 (
