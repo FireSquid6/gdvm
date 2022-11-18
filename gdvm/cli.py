@@ -3,7 +3,7 @@
 from typing import Optional
 import typer
 from gdvm import __app_name__, __version__, OS_NAME, SUCCESS
-from gdvm.config import save_os, save_godot_dir, get_os, get_godot_dir, init_config_file, assert_config_exists
+from gdvm.config import save_os, save_godot_dir, get_os, get_godot_dir, init_config_file, assert_config_exists, add_version, has_version
 from pathlib import Path
 from gdvm.godot_downloader import get_download_url, download_zip
 from rich.progress import Progress, TextColumn, SpinnerColumn
@@ -100,6 +100,8 @@ def install(
     base_version = ""
     release = "stable"
 
+    # TODO: add some checker to make sure the version is valid
+
     if "-" in version:
         split = version.split("-")
         base_version = split[0]
@@ -126,7 +128,12 @@ def install(
     
     if error == SUCCESS:
         typer.echo(f"Godot successfully downloaded!")
+        add_version(version)
+
+
         raise typer.Exit()
+
+
 
     typer.echo(f"Godot download failed. Is the URL a proper link?")
     raise typer.Exit()
@@ -150,9 +157,16 @@ def use(
         mono (bool, optional): _description_. Defaults to typer.Option( False, help = "Whether to use the mono version of Godot or not" ).
     """
 
-    # TODO: make sure the config file exists
+    # make sure the config file exists
+    if not assert_config_exists():
+        typer.echo("Config file not created. Please run 'gdvm init' first.")
+        raise typer.Exit
 
-    # TODO: check if the requested version is installed
+    # check if the requested version is installed
+    if not has_version(version):
+        typer.echo(f"Version {version} has not been installed with 'gdvm insatll'. Either you made a typo, you haven't run 'gdvm install', or I am a bad programmer (very possible).")
+        raise typer.Exit()
+
 
     # TODO: delete the current godot executable
 

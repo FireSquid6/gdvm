@@ -8,6 +8,7 @@ from shutil import rmtree
 import typer
 
 
+
 def get_download_url(version: str, os: OS_NAME, release: str = "stable",  mono: bool = False) -> str:
     """Returns a url to the zip file containing the requestsed version of Godot.
 
@@ -73,6 +74,11 @@ def download_zip(url: str, save_directory: Path) -> int:
     with open(save_directory / "godot.zip", "wb") as zip:
         zip.write(response.read())
         zip.close()
+
         return SUCCESS
     
     return FILE_ERROR
+
+
+def delete_zip():
+    pass

@@ -86,13 +86,59 @@ def assert_config_exists() -> bool:
     return CONFIG_FILE_PATH.exists()
 
 
+def add_version(version: str) -> int:
+    """Adds a version to the versions array in the config file
+
+    Args:
+        version (str): the string of the version. Examples: 4.0-beta, 3.5.2-stable, 
+
+    Returns:
+        int: SUCCESS on a good day
+    """    
+    versions = _get_config("versions")
+
+    if versions == FILE_ERROR:
+        return FILE_ERROR
+
+    if versions == -1:
+        versions = []
+    
+    versions.append(version)
+    _edit_config("versions", versions)
+
+
+def has_version(version: str) -> bool:
+    """Checks if a specified version is installed
+
+    Args:
+        version (str): the version to make sure exists
+
+    Returns:
+        bool: whether the version is currently installed or not
+    """
+    
+    versions = _get_config("versions")
+
+    if versions != -1 and version != FILE_ERROR:
+        return version in versions
+
+    return False
+
+
+
 """
 PRIVATE METHODS
 """
-def _get_config(key: str) -> dict:
+def _get_config(key: str):
     try:
         file = CONFIG_FILE_PATH.open("r").read()
-        return parse(file)[key]
+        toml_data = parse(file)
+
+        if key in toml_data.keys():
+            return toml_data[key]
+        else:
+            return -1
+
     except OSError:
         return FILE_ERROR
 
@@ -112,5 +158,3 @@ def _edit_config(key: str, value) -> int:
         
     except OSError:
         return FILE_ERROR
-
-
