@@ -1,0 +1,34 @@
+{
+  "name": "gdvm",
+  "version": "1.0.0",
+  "description": "A version management system for godot",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firesquid6/gdvm.git"
+  },
+  "keywords": [
+    "godot",
+    "game-engine",
+    "version",
+    "manager",
+    "game",
+    "engine",
+    "gdscript"
+  ],
+  "author": "firesquid6",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firesquid6/gdvm/issues"
+  },
+  "homepage": "https://github.com/firesquid6/gdvm#readme",
+  "bin": {
+    "gdvm": "./bin/index.js"
+  },
+  "dependencies": {
+    "yargs": "^17.7.1"
+  }
+}
