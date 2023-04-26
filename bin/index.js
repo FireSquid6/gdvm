@@ -16,7 +16,6 @@ yargs
     },
     function (argv) {
       parser("use", argv);
-      console.log("use", argv);
     }
   )
   .command(

@@ -3,10 +3,12 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { mkdirp } = require("mkdirp");
+const run_command = require("./run-command");
 
 const homedir = os.homedir();
 
 function parse(command, args) {
+  console.log("args are", args);
   // get the config object
   const config = get_config();
   if (config === null) {
@@ -19,29 +21,8 @@ function parse(command, args) {
     return;
   }
 
-  console.log(config);
-  console.log(data);
-
-  // parse the command
-  /*   switch (command) {
-    case "use":
-      use(args, config, data);
-      break;
-    case "install":
-      install(args, config, data);
-      break;
-    case "uninstall":
-      uninstall(args, config, data);
-      break;
-    case "installed":
-      installed(args, config, data);
-      break;
-    case "available":
-      available(args, config, data);
-      break;
-    default:
-      console.log("Unknown command: " + command);
-  } */
+  // run the command
+  run_command(command, config, data, args);
 }
 
 function get_config() {
@@ -92,11 +73,10 @@ const default_data = {
 
 function get_data(config) {
   const data_path = path.join(config.data_path, "/data.json");
-  console.log(data_path);
 
   // ensure that the data_path exists
   if (fs.existsSync(data_path)) {
-    return JSON.parse(require(data_path));
+    return require(data_path);
   }
   const made = mkdirp.sync(path.dirname(config.data_path));
 
