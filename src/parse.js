@@ -1,4 +1,4 @@
-const validate_version = require("./validate-version");
+const validate_version = require("./utils/validate-version");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
