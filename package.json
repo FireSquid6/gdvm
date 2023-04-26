@@ -29,6 +29,7 @@
     "gdvm": "./bin/index.js"
   },
   "dependencies": {
+    "mkdirp": "^3.0.1",
     "yargs": "^17.7.1"
   },
   "devDependencies": {

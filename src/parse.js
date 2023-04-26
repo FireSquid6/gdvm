@@ -1,6 +1,10 @@
 const validate_version = require("./validate-version");
 const os = require("os");
 const fs = require("fs");
+const path = require("path");
+const { mkdirp } = require("mkdirp");
+
+const homedir = os.homedir();
 
 function parse(command, args) {
   // get the config object
@@ -10,6 +14,13 @@ function parse(command, args) {
   }
 
   // get the data.json file
+  const data = get_data(config);
+  if (data === null) {
+    return;
+  }
+
+  console.log(config);
+  console.log(data);
 
   // parse the command
   /*   switch (command) {
@@ -48,9 +59,9 @@ function get_config() {
       config_path,
       JSON.stringify(
         {
-          godot_path: "~/gdvm/current",
-          versions_path: "~/gdvm/versions",
-          data_path: "~/gdvm/data",
+          godot_path: path.join(os.homedir(), "/gdvm/current"),
+          versions_path: path.join(os.homedir(), "/gdvm/versions"),
+          data_path: path.join(os.homedir(), "/gdvm/data"),
         },
         null,
         2
@@ -80,16 +91,17 @@ const default_data = {
 };
 
 function get_data(config) {
-  const data_path = config.data_path + "/data.json";
+  const data_path = path.join(config.data_path, "/data.json");
+  console.log(data_path);
 
   // ensure that the data_path exists
   if (fs.existsSync(data_path)) {
     return JSON.parse(require(data_path));
   }
+  const made = mkdirp.sync(path.dirname(config.data_path));
 
-  // create the data file
   fs.writeFileSync(data_path, JSON.stringify(default_data, null, 2));
   return default_data;
 }
 
-module.exports = { parser, validate_version };
+module.exports = { parse, validate_version };
