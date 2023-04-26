@@ -1,20 +1,21 @@
 #!/usr/bin/env node
 const yargs = require("yargs");
+const parser = require("../src/parse.js").parse;
 
 yargs
   .scriptName("gdvm")
   .usage("$0 <cmd> [args]")
   .command(
-    "use [version]",
+    "use [godot_version]",
     "use a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godot-version", {
+      yargs.positional("godot_version", {
         type: "string",
         describe: "the version to use",
-        default: "latest",
       });
     },
     function (argv) {
+      parser("use", argv);
       console.log("use", argv);
     }
   )

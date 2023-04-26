@@ -4,7 +4,7 @@
   "description": "A version management system for godot",
   "main": "bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
   },
   "dependencies": {
     "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }
