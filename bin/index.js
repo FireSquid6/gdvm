@@ -64,7 +64,7 @@ yargs
     "crawl",
     "crawls the tuxfamily godot repo to look for newly available versions. Must have config set up.",
     function (argv) {
-      console.log("crawl");
+      parser("crawl", argv);
     }
   )
   .help().argv;

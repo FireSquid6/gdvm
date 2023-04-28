@@ -4,7 +4,7 @@
   "description": "A version management system for godot",
   "main": "bin/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
     "gdvm": "./bin/index.js"
   },
   "dependencies": {
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
     "mkdirp": "^3.0.1",
     "yargs": "^17.7.1"
   },
