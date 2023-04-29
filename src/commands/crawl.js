@@ -21,16 +21,10 @@ module.exports = {
     });
 
     console.log("Writing data to file...");
+    data.available_versions = parsed_data;
     fs.writeFileSync(
-      config.data_path + "/crawl_results.json",
-      JSON.stringify(
-        {
-          date: new Date(),
-          data: parsed_data,
-        },
-        null,
-        2
-      )
+      config.data_path + "/data.json",
+      JSON.stringify(data, null, 2)
     );
   },
 };
