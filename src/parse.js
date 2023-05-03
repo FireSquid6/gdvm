@@ -36,13 +36,29 @@ function get_config() {
     console.log(
       "No config file found. Please fill out the config file at ~/.gdvm.json before running any commands."
     );
+
+    let os_name;
+    switch (os.platform()) {
+      case "win32":
+        os_name = "win64"; // os.platform returns win32 on all windows systems. Since most people run 64 bit, we write 32 bit to the config by deault.
+        break;
+      case "darwin":
+        os_name = "osx";
+        break;
+      case "android":
+        os_name = "android";
+      default:
+        os_name = "linux64"; // if it's any weird shit, we just assume the linux64 versions work
+    }
+
     fs.writeFileSync(
       config_path,
       JSON.stringify(
         {
-          godot_path: path.join(os.homedir(), "/gdvm/current"),
-          versions_path: path.join(os.homedir(), "/gdvm/versions"),
-          data_path: path.join(os.homedir(), "/gdvm/data"),
+          os: os_name,
+          godot_path: path.join(os.homedir(), "/.gdvm/current"),
+          versions_path: path.join(os.homedir(), "/.gdvm/versions"),
+          data_path: path.join(os.homedir(), "/.gdvm/data"),
         },
         null,
         2

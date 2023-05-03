@@ -11,7 +11,7 @@ installation for gdvm is relativelty simple. Assuming you have node installed, j
   "os": "linux64",
   "data-dir": "home/firesquid/.gdvm/data", 
   "versions-dir": "home/firesquid/.gdvm/versions", 
-  "use-dir": "home/firesquid/.gdvm/use", 
+  "godot-path": "home/firesquid/.gdvm/use", 
 }
 ```
 `os` - the operating system to download godot for. It can either be `linux64`, `linux32`, `win32`, `win64`, or `mac`
