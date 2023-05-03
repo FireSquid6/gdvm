@@ -29,7 +29,7 @@ yargs
       });
     },
     function (argv) {
-      console.log("install", argv);
+      parser("install", argv);
     }
   )
   .command(

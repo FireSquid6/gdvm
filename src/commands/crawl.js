@@ -1,6 +1,6 @@
 const fs = require("fs");
 const parse_url = require("../utils/parse_url");
-const crawl = require("../utils/crawl");
+const crawl = require("../utils/crawl_tuxfamily");
 
 module.exports = {
   name: "crawl",

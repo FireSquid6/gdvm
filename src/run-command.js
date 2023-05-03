@@ -1,4 +1,8 @@
-const commands = [require("./commands/use"), require("./commands/crawl")];
+const commands = [
+  require("./commands/use"),
+  require("./commands/crawl"),
+  require("./commands/install"),
+];
 
 function run_command(command_name, config, data, args) {
   commands.forEach((command) => {

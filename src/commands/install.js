@@ -1,6 +1,8 @@
+const download = require("../utils/download");
+
 module.exports = {
   name: "install",
-  required_args: ["godot_version"],
+  required_args: ["godotVersion"],
   optional_args: [],
   command: (config, data, args) => {
     // check if version is already installed
@@ -24,5 +26,16 @@ module.exports = {
       );
       return;
     }
+
+    // download the version
+    const download_path =
+      config.versions_path +
+      "/" +
+      `${version.version}-${version.release}-${
+        version.mono ? "mono-" : ""
+      }.zip`;
+
+    console.log(`Downloading ${version.version}...`);
+    download(version.url, download_path);
   },
 };
