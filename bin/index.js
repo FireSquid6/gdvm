@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const yargs = require("yargs");
-const parser = require("../src/parse.js").parse;
+const parser = require("../src/parse_command.js").parse_command;
 
 yargs
   .scriptName("gdvm")
