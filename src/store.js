@@ -15,14 +15,25 @@ class Store {
   }
 
   write() {
+    console.log("writing store to ", this.path);
     fs.writeFileSync(this.path, JSON.stringify(this.store));
   }
 
-  set() {}
+  set(key, value) {
+    this.store[key] = value;
+  }
 
-  get() {}
+  get(key) {
+    if (this.has(key)) {
+      return this.store[key];
+    }
 
-  has() {}
+    return null;
+  }
+
+  has(key) {
+    return this.store.hasOwnProperty(key);
+  }
 }
 
 module.exports = { Store };
