@@ -4,15 +4,15 @@ const commands = [
   require("./commands/install"),
 ];
 
-function run_command(command_name, config, data, args) {
+function runCommand(commandName, config, data, args) {
   commands.forEach((command) => {
-    if (command.name === command_name) {
+    if (command.name === commandName) {
       // check that the command has the required args
       for (const arg of command.required_args) {
         if (!args.hasOwnProperty(arg)) {
           console.log(
             "Command " +
-              command_name +
+              commandName +
               " is missing required argument: " +
               arg +
               "."
@@ -26,4 +26,4 @@ function run_command(command_name, config, data, args) {
   });
 }
 
-module.exports = run_command;
+module.exports = runCommand;

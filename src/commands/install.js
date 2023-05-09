@@ -2,20 +2,20 @@ const download = require("../utils/download");
 
 module.exports = {
   name: "install",
-  required_args: ["godotVersion"],
-  optional_args: [],
+  requiredArgs: ["godotVersion"],
+  optionalArgs: [],
   command: (config, data, args) => {
     // check if version is already installed
-    if (data.installed.includes(args.godot_version)) {
+    if (data.installed.includes(args.godotVersion)) {
       console.log(
-        `Version already installed. Type 'gdvm use ${args.godot_version}' to use it.`
+        `Version already installed. Type 'gdvm use ${args.godotVersion}' to use it.`
       );
       return;
     }
 
     // find the link to download the version from
     const version = data.versions.find(
-      (version) => version.version === args.godot_version
+      (version) => version.version === args.godotVersion
     );
     if (!version) {
       console.log(
@@ -28,14 +28,14 @@ module.exports = {
     }
 
     // download the version
-    const download_path =
-      config.versions_path +
+    const downloadPath =
+      config.versionsPath +
       "/" +
       `${version.version}-${version.release}-${
         version.mono ? "mono-" : ""
       }.zip`;
 
     console.log(`Downloading ${version.version}...`);
-    download(version.url, download_path);
+    download(version.url, downloadPath);
   },
 };

@@ -23,15 +23,15 @@ async function crawl() {
     console.log(pageHtml);
     $("a").each((index, element) => {
       let link = currentUrl + "/" + $(element).attr("href");
-      let is_included = true;
+      let isIncluded = true;
 
       exclude.forEach((excluded) => {
         if (link.includes(excluded)) {
-          is_included = false;
+          isIncluded = false;
         }
       });
 
-      if (!visited.includes(link) && !toVisit.includes(link) && is_included) {
+      if (!visited.includes(link) && !toVisit.includes(link) && isIncluded) {
         if (link.charAt(link.length - 1) === "/") {
           toVisit.push(link);
           console.log(`Added ${link} to toVisit`);

@@ -9,7 +9,7 @@ yargs
     "use [godot_version]",
     "use a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godot_version", {
+      yargs.positional("godotVersion", {
         type: "string",
         describe: "the version to use",
       });
@@ -22,7 +22,7 @@ yargs
     "install [version]",
     "install a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godot-version", {
+      yargs.positional("godotVersion", {
         type: "string",
         describe: "the version to install",
         default: "latest",
@@ -36,7 +36,7 @@ yargs
     "uninstall [version]",
     "uninstall a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godot-version ", {
+      yargs.positional("godotVersion ", {
         type: "string",
         describe: "the version to uninstall",
         default: "latest",

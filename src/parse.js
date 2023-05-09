@@ -3,7 +3,7 @@ const os = require("os");
 const fs = require("fs");
 const path = require("path");
 const { mkdirp } = require("mkdirp");
-const run_command = require("./run-command");
+const runCommand = require("./run_command");
 
 const homedir = os.homedir();
 
@@ -25,24 +25,24 @@ function parse(command, args) {
   run_command(command, config, data, args);
 }
 
-function get_config() {
-  const config_path = os.homedir() + "/.gdvm.json";
+function getConfig() {
+  const configPath = os.homedir() + "/.gdvm.json";
 
   // chcek if the config file exists
   let config = null;
-  if (fs.existsSync(config_path)) {
-    config = require(config_path);
+  if (fs.existsSync(configPath)) {
+    config = require(configPath);
   } else {
     console.log(
       "No config file found. Please fill out the config file at ~/.gdvm.json before running any commands."
     );
     fs.writeFileSync(
-      config_path,
+      configPath,
       JSON.stringify(
         {
-          godot_path: path.join(os.homedir(), "/gdvm/current"),
-          versions_path: path.join(os.homedir(), "/gdvm/versions"),
-          data_path: path.join(os.homedir(), "/gdvm/data"),
+          godotPath: path.join(os.homedir(), "/gdvm/current"),
+          versionsPath: path.join(os.homedir(), "/gdvm/versions"),
+          dataPath: path.join(os.homedir(), "/gdvm/data"),
         },
         null,
         2
@@ -65,23 +65,23 @@ function get_config() {
   return config;
 }
 
-const default_data = {
-  installed_versions: [],
-  available_versions: [],
-  current_version: null,
+const defaultData = {
+  installedVersions: [],
+  availableVersions: [],
+  currentVersion: null,
 };
 
-function get_data(config) {
-  const data_path = path.join(config.data_path, "/data.json");
+function getData(config) {
+  const dataDath = path.join(config.data_path, "/data.json");
 
   // ensure that the data_path exists
-  if (fs.existsSync(data_path)) {
-    return require(data_path);
+  if (fs.existsSync(dataPath)) {
+    return require(dataPath);
   }
   const made = mkdirp.sync(path.dirname(config.data_path));
 
-  fs.writeFileSync(data_path, JSON.stringify(default_data, null, 2));
-  return default_data;
+  fs.writeFileSync(dataPath, JSON.stringify(defaultData, null, 2));
+  return defaultData;
 }
 
-module.exports = { parse, validate_version };
+module.exports = { parse, validateVersion };

@@ -32,6 +32,7 @@
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
     "mkdirp": "^3.0.1",
+    "shelljs": "^0.8.5",
     "yargs": "^17.7.1"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-function parse_url(url) {
+function parseUrl(url) {
   // parses a tuxfamily url and returns either null or an object containing the version, platform, and release of the godot version
   // example: https://downloads.tuxfamily.org/godotengine/2.0.3/Godot_v2.0.3_stable_osx64.zip
   // returns: { version: "2.0.3", os: "osx64", release: "stable" }
@@ -86,4 +86,4 @@ function parse_url(url) {
   return data;
 }
 
-module.exports = parse_url;
+module.exports = parseUurl;

@@ -1,4 +1,4 @@
-function validate_version(input) {
+function validateVersion(input) {
   // check that the version is valid
   if (!/^\d+\.\d+\.\d+$/.test(input)) {
     console.log(
@@ -11,4 +11,4 @@ function validate_version(input) {
   return input;
 }
 
-module.exports = validate_version;
+module.exports = validateVersion;
