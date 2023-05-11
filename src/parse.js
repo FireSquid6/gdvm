@@ -25,10 +25,27 @@ function getConfig() {
     console.log(
       "No config file found. Please fill out the config file at ~/.gdvm.json before running any commands."
     );
+
+    let osName = "linux64";
+    switch (os.platform()) {
+      case "win32":
+        osName = "win64";
+        break;
+      case "darwin":
+        osName = "osx";
+        break;
+      case "android":
+        osName = "android";
+        break;
+      default:
+        osName = "linux64";
+    }
+
     fs.writeFileSync(
       configPath,
       JSON.stringify(
         {
+          os: osName,
           godotPath: path.join(os.homedir(), "/.gdvm/current"),
           versionsPath: path.join(os.homedir(), "/.gdvm/versions"),
           dataPath: path.join(os.homedir(), "/.gdvm/data.json"),
@@ -41,7 +58,7 @@ function getConfig() {
   }
 
   // check that the config has the required fields
-  for (const field of ["godotPath", "versionsPath", "dataPath"]) {
+  for (const field of ["os", "godotPath", "versionsPath", "dataPath"]) {
     if (!config.hasOwnProperty(field)) {
       console.log(
         "Config file is missing required field: " +
