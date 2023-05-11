@@ -1,28 +1,17 @@
-const validate_version = require("./utils/validate-version");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-const { mkdirp } = require("mkdirp");
 const runCommand = require("./run_command");
 
-const homedir = os.homedir();
-
 function parse(command, args) {
-  console.log("args are", args);
   // get the config object
-  const config = get_config();
+  const config = getConfig();
   if (config === null) {
     return;
   }
 
-  // get the data.json file
-  const data = get_data(config);
-  if (data === null) {
-    return;
-  }
-
   // run the command
-  run_command(command, config, data, args);
+  runCommand(command, config, args);
 }
 
 function getConfig() {
@@ -40,9 +29,9 @@ function getConfig() {
       configPath,
       JSON.stringify(
         {
-          godotPath: path.join(os.homedir(), "/gdvm/current"),
-          versionsPath: path.join(os.homedir(), "/gdvm/versions"),
-          dataPath: path.join(os.homedir(), "/gdvm/data"),
+          godotPath: path.join(os.homedir(), "/.gdvm/current"),
+          versionsPath: path.join(os.homedir(), "/.gdvm/versions"),
+          dataPath: path.join(os.homedir(), "/.gdvm/data.json"),
         },
         null,
         2
@@ -52,7 +41,7 @@ function getConfig() {
   }
 
   // check that the config has the required fields
-  for (const field of ["godot_path", "versions_path", "data_path"]) {
+  for (const field of ["godotPath", "versionsPath", "dataPath"]) {
     if (!config.hasOwnProperty(field)) {
       console.log(
         "Config file is missing required field: " +
@@ -65,23 +54,4 @@ function getConfig() {
   return config;
 }
 
-const defaultData = {
-  installedVersions: [],
-  availableVersions: [],
-  currentVersion: null,
-};
-
-function getData(config) {
-  const dataDath = path.join(config.data_path, "/data.json");
-
-  // ensure that the data_path exists
-  if (fs.existsSync(dataPath)) {
-    return require(dataPath);
-  }
-  const made = mkdirp.sync(path.dirname(config.data_path));
-
-  fs.writeFileSync(dataPath, JSON.stringify(defaultData, null, 2));
-  return defaultData;
-}
-
-module.exports = { parse, validateVersion };
+module.exports = { parse };

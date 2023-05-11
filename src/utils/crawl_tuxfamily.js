@@ -41,6 +41,11 @@ async function crawl() {
         }
       }
     });
+
+    // for debugging. Should be uncommented most of the time.
+    if (downloads.length > 25) {
+      break;
+    }
   }
   return downloads;
 }
