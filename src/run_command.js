@@ -4,11 +4,11 @@ const commands = [
   require("./commands/install"),
 ];
 
-function runCommand(commandName, config, data, args) {
+function runCommand(commandName, config, args) {
   commands.forEach((command) => {
     if (command.name === commandName) {
       // check that the command has the required args
-      for (const arg of command.required_args) {
+      for (const arg of command.requiredArgs) {
         if (!args.hasOwnProperty(arg)) {
           console.log(
             "Command " +
@@ -20,7 +20,7 @@ function runCommand(commandName, config, data, args) {
           return;
         }
       }
-      command.command(config, data, args);
+      command.command(config, args);
       return;
     }
   });

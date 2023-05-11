@@ -86,4 +86,4 @@ function parseUrl(url) {
   return data;
 }
 
-module.exports = parseUurl;
+module.exports = parseUrl;
