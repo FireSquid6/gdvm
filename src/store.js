@@ -1,6 +1,5 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
-const { forceDirectoryExists } = require("./utils/force_directory_exists");
 
 class Store {
   store = {};
@@ -21,7 +20,9 @@ class Store {
 
     console.log(this.path);
     console.log("dirname", path.dirname(this.path));
-    forceDirectoryExists(path.dirname(this.path));
+
+    fs.ensureDirSync(path.dirname(this.path));
+
     fs.writeFileSync(this.path, JSON.stringify(this.store));
   }
 
