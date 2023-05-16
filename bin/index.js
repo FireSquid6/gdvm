@@ -22,10 +22,20 @@ yargs
     "install [version]",
     "install a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godotVersion", {
+      yargs.option("godotVersion", {
+        alias: "v",
         type: "string",
         describe: "the version to install",
-        default: "latest",
+      });
+      yargs.option("release", {
+        alias: "r",
+        type: "string",
+        default: "stable",
+      });
+      yargs.option("mono", {
+        alias: "m",
+        type: "boolean",
+        default: false,
       });
     },
     function (argv) {

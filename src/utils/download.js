@@ -32,6 +32,7 @@ const download = async (url, localPath) => {
     })
     .pipe(file)
     .on("error", (err) => {
+      console.log(err);
       fs.unlink(localPath);
       bar.stop();
       return Promise.reject(

@@ -1,41 +1,56 @@
 const download = require("../utils/download");
+const fs = require("fs-extra");
+const { Store } = require("../store");
+import { validateVersion } from "../utils/validate_version";
 
 module.exports = {
   name: "install",
   requiredArgs: ["godotVersion"],
-  optionalArgs: [],
-  command: (config, data, args) => {
-    // check if version is already installed
-    if (data.installed.includes(args.godotVersion)) {
+  optionalArgs: ["release", "mono"],
+  command: (config, args) => {
+    const store = new Store();
+    store.open(config.dataPath);
+
+    const version = args.godotVersion;
+    const release = args.release;
+    const mono = args.mono;
+
+    console.log(version, release, mono);
+
+    if (store.has("availableVersions")) {
+      const availableVersions = store.get("availableVersions");
+      for (let i = 0; i < availableVersions.length; i++) {
+        const availableVersion = availableVersions[i];
+        if (
+          availableVersion.version === version &&
+          availableVersion.release === release &&
+          availableVersion.mono === mono &&
+          availableVersion.os === config.os
+        ) {
+          fs.ensureDirSync(config.versionsPath);
+
+          download(
+            availableVersion.link,
+            `${config.versionsPath}/${version}-${release}-${mono}.zip`
+          );
+          return;
+        }
+      }
       console.log(
-        `Version already installed. Type 'gdvm use ${args.godotVersion}' to use it.`
+        `Version ${version} of release ${release} with mono as ${mono} for os ${config.os} is not available. Have you run gdvm crawl recently?`
       );
       return;
     }
+  },
 
-    // find the link to download the version from
-    const version = data.versions.find(
-      (version) => version.version === args.godotVersion
-    );
-    if (!version) {
-      console.log(
-        `Version not available. This could be because:
-         - You spelled the version wrong
-         - You haven't updated the available versions in a while with 'gdvm crawl.' Check 'gdvm available' to see what versions have been crawled.
-         - I am a bad programmer. Create an issue on GitHub if you think this is the case.`
-      );
-      return;
+  versionEquality: (version1, version2) => {
+    const removeZeroesAndPeriods = (version) => {
+      return version.replace(/0/g, "").replace(/\./g, "");
+    };
+
+    if (removeZeroesAndPeriods(version1) === removeZeroesAndPeriods(version2)) {
+      return true;
     }
-
-    // download the version
-    const downloadPath =
-      config.versionsPath +
-      "/" +
-      `${version.version}-${version.release}-${
-        version.mono ? "mono-" : ""
-      }.zip`;
-
-    console.log(`Downloading ${version.version}...`);
-    download(version.url, downloadPath);
+    return false;
   },
 };
