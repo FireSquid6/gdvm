@@ -1,4 +1,4 @@
-const validate_version = require("../utils/validate-version");
+const validate_version = require("../utils/validate_version");
 
 describe("validate_version", () => {
   test("valid version", () => {

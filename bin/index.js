@@ -26,7 +26,6 @@ yargs
         alias: "v",
         type: "string",
         describe: "the version to install",
-        default: "latest",
       });
       yargs.option("release", {
         alias: "r",

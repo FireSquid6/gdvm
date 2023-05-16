@@ -1,7 +1,7 @@
 const download = require("../utils/download");
 const fs = require("fs-extra");
 const { Store } = require("../store");
-const { version } = require("yargs");
+import { validateVersion } from "../utils/validate_version";
 
 module.exports = {
   name: "install",
