@@ -1,6 +1,7 @@
 const download = require("../utils/download");
 const fs = require("fs-extra");
 const { Store } = require("../store");
+const { version } = require("yargs");
 
 module.exports = {
   name: "install",
@@ -40,5 +41,16 @@ module.exports = {
       );
       return;
     }
+  },
+
+  versionEquality: (version1, version2) => {
+    const removeZeroesAndPeriods = (version) => {
+      return version.replace(/0/g, "").replace(/\./g, "");
+    };
+
+    if (removeZeroesAndPeriods(version1) === removeZeroesAndPeriods(version2)) {
+      return true;
+    }
+    return false;
   },
 };
