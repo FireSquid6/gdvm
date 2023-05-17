@@ -60,14 +60,14 @@ yargs
     "installed",
     "list all installed version. Must have config set up.",
     function (argv) {
-      console.log("installed");
+      parser("installed", argv);
     }
   )
   .command(
     "available",
     "list all available version. Must have config set up.",
     function (argv) {
-      console.log("available");
+      parser("available", argv);
     }
   )
   .command(

@@ -2,6 +2,8 @@ const commands = [
   require("./commands/use"),
   require("./commands/crawl"),
   require("./commands/install"),
+  require("./commands/ls/available"),
+  require("./commands/ls/installed"),
 ];
 
 function runCommand(commandName, config, args) {

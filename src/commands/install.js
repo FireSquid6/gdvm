@@ -1,7 +1,6 @@
 const download = require("../utils/download");
 const fs = require("fs-extra");
 const { Store } = require("../store");
-import { validateVersion } from "../utils/validate_version";
 
 module.exports = {
   name: "install",
@@ -21,18 +20,35 @@ module.exports = {
       const availableVersions = store.get("availableVersions");
       for (let i = 0; i < availableVersions.length; i++) {
         const availableVersion = availableVersions[i];
+
+        // awful terrible nesting
         if (
           availableVersion.version === version &&
           availableVersion.release === release &&
           availableVersion.mono === mono &&
           availableVersion.os === config.os
         ) {
-          fs.ensureDirSync(config.versionsPath);
-
+          // Error handling is done in the download function so we don't need to worry about that crap
+          fs.ensureDirSync(config.versionsPath); // this is the best way I've found to make sure the dir always exists
           download(
             availableVersion.link,
             `${config.versionsPath}/${version}-${release}-${mono}.zip`
           );
+
+          // to make the available and install commands work properly, we need to remove the version from availableVersions and add it to installedVersions
+          let installedVersions = store.get("installedVersions");
+          if (installedVersions === null) {
+            //should really just be making things null save but I'm a bad programmer
+            installedVersions = [];
+          }
+          installedVersions.push(availableVersion);
+          store.set("installedVersions", installedVersions);
+
+          // remove the version from availableVersions
+          availableVersions.splice(i, 1);
+          store.set("availableVersions", availableVersions);
+
+          console.log("Installed version " + version + " successfully.");
           return;
         }
       }
