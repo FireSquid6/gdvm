@@ -9,9 +9,20 @@ yargs
     "use [godot_version]",
     "use a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godotVersion", {
+      yargs.option("godotVersion", {
+        alias: "v",
         type: "string",
-        describe: "the version to use",
+        describe: "the version to install",
+      });
+      yargs.option("release", {
+        alias: "r",
+        type: "string",
+        default: "stable",
+      });
+      yargs.option("mono", {
+        alias: "m",
+        type: "boolean",
+        default: false,
       });
     },
     function (argv) {
@@ -46,10 +57,20 @@ yargs
     "uninstall [version]",
     "uninstall a specific version. Must have config set up.",
     (yargs) => {
-      yargs.positional("godotVersion ", {
+      yargs.option("godotVersion", {
+        alias: "v",
         type: "string",
-        describe: "the version to uninstall",
-        default: "latest",
+        describe: "the version to install",
+      });
+      yargs.option("release", {
+        alias: "r",
+        type: "string",
+        default: "stable",
+      });
+      yargs.option("mono", {
+        alias: "m",
+        type: "boolean",
+        default: false,
       });
     },
     function (argv) {
@@ -60,14 +81,14 @@ yargs
     "installed",
     "list all installed version. Must have config set up.",
     function (argv) {
-      console.log("installed");
+      parser("installed", argv);
     }
   )
   .command(
     "available",
     "list all available version. Must have config set up.",
     function (argv) {
-      console.log("available");
+      parser("available", argv);
     }
   )
   .command(
