@@ -9,16 +9,14 @@ installation for gdvm is relativelty simple. Assuming you have node installed, j
 ```json
 {
   "os": "linux64",
-  "data-dir": "home/firesquid/.gdvm/data", 
-  "versions-dir": "home/firesquid/.gdvm/versions", 
-  "use-dir": "home/firesquid/.gdvm/use", 
+  "godotPath": "/home/firesquid/.gdvm/current",
+  "versionsPath": "/home/firesquid/.gdvm/versions",
+  "dataPath": "/home/firesquid/.gdvm/data.json"
 }
 ```
-`os` - the operating system to download godot for. It can either be `linux64`, `linux32`, `win32`, `win64`, or `mac`
-`data-dir` - the directory gdvm uses to store excess data
-`versions-dir` - the directory where zip files of installed versions will be stored
-`use-dir` - the directory where the currently in-use version of godot is. This should be added to your system's path. ([wait, what is that?](https://en.wikipedia.org/wiki/PATH_(variable))) 
-**All of these directories must exist**
-
-
+`os` - the operating system to download godot for. It can either be `linux64`, `linux32`, `win32`, `win64`, or `mac`  
+`dataPath` - A json file that gdvm uses to store data   
+`versionsDir` - the directory where zip files of installed versions will be stored  
+`godotPath` - the directory where the currently in-use version of godot is under `godot.<whatever-your-system-exe-is>`. This should be added to your system's path. ([wait, what is that?](https://en.wikipedia.org/wiki/PATH_(variable))) 
+  
 Once this file is created and filled out, make sure that the use-dir is added to your system path. This will allow you to call godot from the command line by calling `godot`. 
