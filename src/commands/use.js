@@ -35,7 +35,14 @@ module.exports = {
         console.log("Finished unzipping");
 
         // rename the executable
-        const executableExtensions = ["exe", "x11", "x86", "app"];
+        const executableExtensions = [
+          "exe",
+          "64",
+          "32",
+          "x86_64",
+          "x86_32",
+          "app",
+        ];
         fs.readdirSync(config.godotPath).forEach((file) => {
           const extension = file.split(".").pop();
           console.log(`renaming executable to godot.${extension}`);
