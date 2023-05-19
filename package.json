@@ -1,6 +1,6 @@
 {
   "name": "gdvm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A version management system for godot",
   "main": "bin/index.js",
   "scripts": {
