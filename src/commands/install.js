@@ -1,9 +1,7 @@
-const download = require("../utils/download");
 const fs = require("fs-extra");
 const { Store } = require("../store");
 const request = require("request");
 const cliProgress = require("cli-progress");
-const fs = require("fs");
 
 // due to the nature of this function, it is manually tested by me. I promise that it works.
 const download = async (url, localPath) => {
@@ -62,7 +60,7 @@ module.exports = {
   name: "install",
   requiredArgs: ["godotVersion"],
   optionalArgs: ["release", "mono"],
-  command: (config, args) => {
+  command: async (config, args) => {
     const store = new Store();
     store.open(config.dataPath);
 
@@ -71,6 +69,14 @@ module.exports = {
     const mono = args.mono;
 
     console.log(version, release, mono);
+
+    if (store.has("installedVersions")) {
+      const installedVersions = store.get("installedVersions");
+      if (installedVersions.includes(version)) {
+        console.log("Version already installed");
+        return;
+      }
+    }
 
     if (store.has("availableVersions")) {
       const availableVersions = store.get("availableVersions");
@@ -86,7 +92,7 @@ module.exports = {
         ) {
           // Error handling is done in the download function so we don't need to worry about that crap
           fs.ensureDirSync(config.versionsPath); // this is the best way I've found to make sure the dir always exists
-          download(
+          await download(
             availableVersion.link,
             `${config.versionsPath}/${version}-${release}-${mono}.zip`
           );
@@ -103,8 +109,8 @@ module.exports = {
           // remove the version from availableVersions
           availableVersions.splice(i, 1);
           store.set("availableVersions", availableVersions);
+          store.write();
 
-          console.log("Installed version " + version + " successfully.");
           return;
         }
       }

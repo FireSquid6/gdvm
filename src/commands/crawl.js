@@ -1,6 +1,4 @@
 const fs = require("fs");
-const parseUrl = require("../utils/parse_url");
-const crawl = require("../utils/crawl_tuxfamily");
 const { Store } = require("../store");
 const axios = require("axios");
 const cheerio = require("cheerio");
