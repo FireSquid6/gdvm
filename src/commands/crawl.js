@@ -94,7 +94,7 @@ function parseUrl(url) {
   } else {
     // since releases other than stable may have a number after them, we need to figure out the specific beta, rc, or alpha iteration
     // first, we need to find the index of the release word
-    const possibleReleases = ["alpha", "beta", "rc"];
+    const possibleReleases = ["alpha", "beta", "rc", "dev"];
     let i = 0; // the index to start reading the number at
     possibleReleases.forEach((release) => {
       if (url.includes(release)) {
