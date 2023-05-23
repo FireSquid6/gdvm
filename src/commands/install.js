@@ -68,8 +68,6 @@ module.exports = {
     const release = args.release;
     const mono = args.mono;
 
-    console.log(version, release, mono);
-
     if (store.has("installedVersions")) {
       const installedVersions = store.get("installedVersions");
       if (installedVersions.includes(version)) {
@@ -114,11 +112,12 @@ module.exports = {
           return;
         }
       }
-      console.log(
-        `Version ${version} of release ${release} with mono as ${mono} for os ${config.os} is not available. Have you run gdvm crawl recently?`
-      );
-      return;
     }
+
+    console.log(
+      `Version ${version} of release ${release} with mono as ${mono} for os ${config.os} is not available. Have you run gdvm crawl recently?`
+    );
+    return;
   },
 
   versionEquality: (version1, version2) => {

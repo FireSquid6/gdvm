@@ -74,7 +74,7 @@ yargs
       });
     },
     function (argv) {
-      console.log("uninstall");
+      parser("uninstall", argv);
     }
   )
   .command(

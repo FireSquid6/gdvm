@@ -4,6 +4,7 @@ const commands = [
   require("./commands/install"),
   require("./commands/ls/available"),
   require("./commands/ls/installed"),
+  require("./commands/uninstall"),
 ];
 
 function runCommand(commandName, config, args) {
